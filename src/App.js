@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Header from "./components/Header";
+import Bar from "./components/Bar";
+import Box from "./components/Box";
+import sixGetRandomRgb from "./utils/randomColorFunc";
 
 function App() {
+  const [boxes, updateBoxes] = useState(6);
+  const [colors, updateColors] = useState(sixGetRandomRgb());
+  const [clickedBox, updateClickedBox] = useState(null);
+  const correctColor = colors[0];
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header color={correctColor} />
+      <Bar
+        color={correctColor}
+        randomColorFunc={updateColors}
+        boxColor={updateBoxes}
+        clickedBox={clickedBox}
+      />
+      <div className="flex">
+        {Array.from({ length: boxes }).map((_, i) => (
+          <Box
+            key={i}
+            updateClickedBox={updateClickedBox}
+            background={colors[i]}
+          />
+        ))}
+      </div>
     </div>
   );
 }
